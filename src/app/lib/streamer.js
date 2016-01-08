@@ -81,7 +81,8 @@
             trackers: [
                 'udp://tracker.openbittorrent.com:80',
                 'udp://tracker.coppersurfer.tk:6969',
-                'udp://open.demonii.com:1337'
+                'udp://9.rarbg.com:2710/announce',
+                'udp://tracker.publicbt.com:80/announce'
             ],
             port: parseInt(Settings.streamPort, 10) || 0,
             tmp: App.settings.tmpLocation,
@@ -245,7 +246,7 @@
     var Streamer = {
         start: function (model) {
             var torrent = model.get('torrent');
-            var torrentUrl = torrent.url ? torrent.url : torrent.magnet;
+            var torrentUrl = torrent.url || torrent.magnet || torrent;
 
             var torrent_read = false;
             if (model.get('torrent_read')) {
@@ -416,8 +417,8 @@
                                                 model.set('tvdb_id', res.show.tvdbid);
                                                 model.set('episode_id', res.show.episode.tvdbid);
                                                 model.set('imdb_id', res.show.imdbid);
-                                                model.set('episode', sub_data.season);
-                                                model.set('season', sub_data.episode);
+                                                model.set('episode', sub_data.episode);
+                                                model.set('season', sub_data.season);
                                                 title = res.show.title + ' - ' + i18n.__('Season %s', res.show.episode.season) + ', ' + i18n.__('Episode %s', res.show.episode.episode) + ' - ' + res.show.episode.title;
                                                 break;
                                             default:
